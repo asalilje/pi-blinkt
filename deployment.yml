@@ -1,13 +1,43 @@
 apiVersion: v1
-kind: Pod
-metadata:
-  name: pi-blinkt
-  labels:
-    zone: pi-blinkt
-    version: v1
-spec:
-  containers:
-  - name: pi-blinkt
-    image: asalilje/pi-blinkt:latest
+  kind: Service
+  metadata:
+    name: pi-blinkt
+    labels:
+      app: pi-blinkt
+  spec:
+    type: NodePort
     ports:
-    - containerPort: 3200
+    - port: 3200
+      protocol: TCP
+      nodePort: 31120
+    selector:
+      app: pi-blinkt
+  ---
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: pi-blinkt
+  spec:
+    replicas: 2
+    strategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxUnavailable: 1
+        maxSurge: 1
+    selector:
+      matchLabels:
+        app: pi-blinkt
+    template:
+      metadata:
+        labels:
+          app: pi-blinkt
+      spec:
+        containers:
+        - name: pi-blinkt
+          securityContext:
+            privileged: true
+          image: asalilje/pi-blinkt:latest
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 3200
+            protocol: TCP
