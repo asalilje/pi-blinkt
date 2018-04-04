@@ -36,7 +36,6 @@ spec:
       - name: pi-blinkt
         securityContext:
           privileged: true
-          runAsUser: 1000
         image: asalilje/pi-blinkt:latest
         imagePullPolicy: Always
         ports:
