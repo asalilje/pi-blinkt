@@ -17,6 +17,7 @@ app.get("/on", (req, res) =>
 app.get("/off", (req, res) =>
 {
   blinkt.clear();
+  blinkt.show();
   res.status(200).send();
 });
 
