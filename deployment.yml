@@ -34,7 +34,7 @@ spec:
     spec:
       containers:
       - name: pi-blinkt
-        image: asalilje/pi-blinkt:latest
+        image: asalilje/pi-blinkt:0.0.1
         imagePullPolicy: Always
         ports:
         - containerPort: 3200
